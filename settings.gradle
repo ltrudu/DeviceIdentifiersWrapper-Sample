@@ -1,0 +1,2 @@
+include ':sampleApplication',':DeviceIdentifiersWrapper'
+rootProject.name = "EMDK-DeviceIdentifiers-Sample"
