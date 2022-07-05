@@ -1,14 +1,31 @@
-# DeviceIdentifiersWrapper-Sample
+# DeviceIdentifiersWrapper
 
-# NEW !!! Change of REPOSITORY and new UPDATE 0.3 FOR A11... #
+
+
+
+## Change Log !!! 
+### 1. Change of REPOSITORY
+### 2. UPDATED FOR A11...
+### 3. Added a Sample repository running on <=A11
+
+## Sample Repository
+https://github.com/ltrudu/DeviceIdentifiersWrapper-Sample
+
+
+## Update for A11
 ```text
         Update your graddle distribution to >= 7.3.3
         update your compileSdkVersion to 30
         Update your Manifest.xml file to add the Query element (as explained in this description)
         Add jitpack.io repository to the project build.graddle file : maven { url 'https://jitpack.io' }
         Update the dependency in the graddle application file: implementation 'com.github.ltrudu:DeviceIdentifiersWrapper:0.3' or replace 0.3 with + to get the latest version automatically
+        Everything is explained in detail in this documentation.
+        You can use the sample as a copy/paste source.
 ```
 
+
+
+## Description
 A wrapper to easily retrieve the Serial Number and the IMEI number of an Android 10+ Zebra device.
 
 How to access device identifiers such as serial number and IMEI on Zebra devices running Android 10
@@ -23,8 +40,7 @@ You can do it using StageNow, more details here: https://github.com/darryncampbe
 
 Or you can use this wrapper that will automatically register your application if it is necessary.
 
-
-
+## Implementation
 To use this helper on Zebra Android devices running Android 10 or higher, first declare a new permission in your AndroidManifest.xml
 
 ```xml
