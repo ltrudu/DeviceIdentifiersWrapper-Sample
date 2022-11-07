@@ -2,14 +2,9 @@ package com.zebra.emdk_deviceidentifiers_sample;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
-
-import com.zebra.deviceidentifierswrapper.DIHelper;
-import com.zebra.deviceidentifierswrapper.IDIResultCallbacks;
 
 /**
  * Device Identifiers Sample
@@ -25,9 +20,9 @@ import com.zebra.deviceidentifierswrapper.IDIResultCallbacks;
  *  (c) Zebra 2020
  */
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ISerialNumberIMEIObserver {
 
-    String TAG = "DeviceID";
+    public static final String TAG = "DeviceID";
 
     static  String status = "";
     TextView tvStatus;
@@ -47,56 +42,18 @@ public class MainActivity extends AppCompatActivity {
         // allow calling device identifier service, we don't wan't to get two
         // concurrent calls to it, so we will ask for the IMEI number only at
         // the end of the getSerialNumber method call (success or error)
-        getSerialNumber();
      }
 
-     private void getSerialNumber()
-     {
-         DIHelper.getSerialNumber(this, new IDIResultCallbacks() {
-             @Override
-             public void onSuccess(String message) {
-                 updateTextViewContent(tvSerialNumber, message);
-                 // We got the serial number, let's try the IMEI number
-                 getIMEINumber();
-             }
-
-             @Override
-             public void onError(String message) {
-                 addMessageToStatusText(message);
-                 // We had an error, but we like to play, so we try the IMEI Number
-                 getIMEINumber();
-             }
-
-             @Override
-             public void onDebugStatus(String message) {
-                 addMessageToStatusText(message);
-             }
-         });
-     }
-
-    private void getIMEINumber()
-    {
-        DIHelper.getIMEINumber(this, new IDIResultCallbacks() {
-            @Override
-            public void onSuccess(String message) {
-                // We've got an IMEI number, let's update the text view
-                updateTextViewContent(tvIMEI, message);
-            }
-
-            @Override
-            public void onError(String message) {
-                addMessageToStatusText(message);
-            }
-
-            @Override
-            public void onDebugStatus(String message) {
-                addMessageToStatusText(message);
-            }
-        });
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateTextViewContent(tvIMEI, ((SNIMEIApplication)getApplication()).getIMEI());
+        updateTextViewContent(tvSerialNumber,((SNIMEIApplication)getApplication()).getSerialNumber());
     }
 
-    private void addMessageToStatusText(String message)
+    protected void addMessageToStatusText(String message)
     {
+        Log.d(TAG, message);
         status += message + "\n";
         MainActivity.this.runOnUiThread(new Runnable() {
             public void run() {
@@ -112,5 +69,25 @@ public class MainActivity extends AppCompatActivity {
                 tv.setText(text);
             }
         });
+    }
+
+    @Override
+    public void onSerialNumberUpdate(String serialNumber) {
+        updateTextViewContent(tvSerialNumber, serialNumber);
+    }
+
+    @Override
+    public void onIMEINumberUpdate(String imeiNumber) {
+        updateTextViewContent(tvIMEI, imeiNumber);
+    }
+
+    @Override
+    public void onErrorMessage(String message) {
+        addMessageToStatusText("Error: " + message);
+    }
+
+    @Override
+    public void onDebugMessage(String message) {
+        addMessageToStatusText("Debug: " + message);
     }
 }
