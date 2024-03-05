@@ -1,3 +1,10 @@
+*Please be aware that this library / application / sample is provided as a community project without any guarantee of support*
+=========================================================
+
+[![](https://jitpack.io/v/ltrudu/DeviceIdentifiersWrapper.svg)](https://jitpack.io/#ltrudu/DeviceIdentifiersWrapper)
+[![](https://jitpack.io/v/ltrudu/DeviceIdentifiersWrapper/month.svg)](https://jitpack.io/#ltrudu/DeviceIdentifiersWrapper)
+
+
 # DeviceIdentifiersWrapper
 
 ## Easy access to serial number and IMEI
@@ -12,7 +19,7 @@ Have fun with Zebra's devices :)
 
 
 
-## Change Log !!! 
+## Change Log !!!
 ### 1. Change of REPOSITORY
 ### 2. UPDATED FOR A13...
 ### 3. Added a Sample repository running on <=A13
@@ -23,7 +30,8 @@ https://github.com/ltrudu/DeviceIdentifiersWrapper-Sample
 ## V0.8 to V0.9 : Updated for A13
 ```text
 	Added BIND_NOTIFICATION_LISTENER_SERVICE permission
-	Added com.symbol.emdk.emdkservice querie
+	Added com.symbol.emdk.emdkservice to the queries element of the AndroidManifest.xml
+	Added com.zebra.zebracontentprovider to the queries element of the AndroidManifest.xml
 	API updated to 33
 ```
 ## V0.4 to v0.8 : Basic cache mechanism & Wait for EMDK availability
@@ -83,16 +91,17 @@ To use this helper on Zebra Android devices running Android 10 or higher, first 
 <uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
 ```
 
-Then add a query element to retrive the data (only necessary for Android builds >= 11)
+Then add a query element to retrive the data
 
 ```xml
     <queries>
         <provider android:authorities="oem_info" />
         <package android:name="com.symbol.emdk.emdkservice" />
+    	<package android:name="com.zebra.zebracontentprovider"/>
     </queries>
 ```
 
-Then add the uses-library element to your application 
+Then add the uses-library element to your application
 ```xml
         <uses-library android:name="com.symbol.emdk" />
 ```
@@ -111,6 +120,7 @@ Sample AdroidManifest.xml:
     <queries>
         <provider android:authorities="oem_info" />
         <package android:name="com.symbol.emdk.emdkservice" />
+    	<package android:name="com.zebra.zebracontentprovider"/>
     </queries>
         
     <application
@@ -166,7 +176,7 @@ task clean(type: Delete) {
 
 Finally, add DeviceIdentifierWrapper dependency to your application build.graddle file:
 ```text
-        implementation 'com.github.ltrudu:DeviceIdentifiersWrapper:0.3'        
+        implementation 'com.github.ltrudu:DeviceIdentifiersWrapper:+'        
 ```
 
 Sample application build.graddle:
@@ -177,7 +187,7 @@ dependencies {
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation 'com.github.ltrudu:DeviceIdentifiersWrapper:0.3'
+    implementation 'com.github.ltrudu:DeviceIdentifiersWrapper:+'
 }
 ```
 
@@ -187,118 +197,118 @@ Now you can use the following snippet codes to retrieve IMEI number and Serial N
 Snippet code to use to retrieve the Serial Number of the device:
 ```java
      private void getSerialNumber(Context context)
-     {
-         DIHelper.getSerialNumber(context, new IDIResultCallbacks() {
-             @Override
-             public void onSuccess(String message) {
-                 // The message contains the serial number
-                 String mySerialNumber = message;
-             }
+        {
+        DIHelper.getSerialNumber(context, new IDIResultCallbacks() {
+@Override
+public void onSuccess(String message) {
+        // The message contains the serial number
+        String mySerialNumber = message;
+        }
 
-             @Override
-             public void onError(String message) {
-                // An error occurred
-             }
+@Override
+public void onError(String message) {
+        // An error occurred
+        }
 
-             @Override
-             public void onDebugStatus(String message) {
-                // You can use this method to get verbose information
-                // about what's happening behind the curtain             
-             }
-         });
-     }
+@Override
+public void onDebugStatus(String message) {
+        // You can use this method to get verbose information
+        // about what's happening behind the curtain             
+        }
+        });
+        }
 ```
 
 
 Snippet code to use to retrieve the IMEI of the device:
 ```java
     private void getIMEINumber(Context context)
-    {
+        {
         DIHelper.getIMEINumber(context, new IDIResultCallbacks() {
-            @Override
-            public void onSuccess(String message) {
-                // We've got an EMEI number
-                String myIMEI = message;
-            }
+@Override
+public void onSuccess(String message) {
+        // We've got an EMEI number
+        String myIMEI = message;
+        }
 
-            @Override
-            public void onError(String message) {
-                // An error occurred
-            }
+@Override
+public void onError(String message) {
+        // An error occurred
+        }
 
-            @Override
-            public void onDebugStatus(String message) {
-                // You can use this method to get verbose information
-                // about what's happening behind the curtain
-            }
+@Override
+public void onDebugStatus(String message) {
+        // You can use this method to get verbose information
+        // about what's happening behind the curtain
+        }
         });
-    }
+        }
 ```
 
 
-As the previous methods are asynchronous, if you need both information, it is strongly recommended to call the second request inside the onSuccess or onError of the first request. 
+As the previous methods are asynchronous, if you need both information, it is strongly recommended to call the second request inside the onSuccess or onError of the first request.
 
 Sample code if you need to get both device identifiers:
 ```java
      private void getDevicesIdentifiers(Context context)
-     {
+        {
         // We first ask for the SerialNumber
-         DIHelper.getSerialNumber(context, new IDIResultCallbacks() {
-             @Override
-             public void onSuccess(String message) {
-                 // The message contains the serial number
-                 String mySerialNumber = message;
-                 // We've got the serial number, now we can ask for the IMEINumber
-                 DIHelper.getIMEINumber(context, new IDIResultCallbacks() {
-                    @Override
-                    public void onSuccess(String message) {
-                        // We've got an EMEI number
-                        String myIMEI = message;
-                    }
+        DIHelper.getSerialNumber(context, new IDIResultCallbacks() {
+@Override
+public void onSuccess(String message) {
+        // The message contains the serial number
+        String mySerialNumber = message;
+        // We've got the serial number, now we can ask for the IMEINumber
+        DIHelper.getIMEINumber(context, new IDIResultCallbacks() {
+@Override
+public void onSuccess(String message) {
+        // We've got an EMEI number
+        String myIMEI = message;
+        }
 
-                    @Override
-                    public void onError(String message) {
-                        // An error occurred
-                    }
+@Override
+public void onError(String message) {
+        // An error occurred
+        }
 
-                    @Override
-                    public void onDebugStatus(String message) {
-                        // You can use this method to get verbose information
-                        // about what's happening behind the curtain
-                    }
-                });
-             }
+@Override
+public void onDebugStatus(String message) {
+        // You can use this method to get verbose information
+        // about what's happening behind the curtain
+        }
+        });
+        }
 
-             @Override
-             public void onError(String message) {
-                // An error occured
-                // Do something here with the error message
-                // We had an error with the Serial Number, but it
-                // doesn't prevent us from calling the getIMEINumber method
-                DIHelper.getIMEINumber(context, new IDIResultCallbacks() {
-                    @Override
-                    public void onSuccess(String message) {
-                        // We've got an EMEI number
-                        String myIMEI = message;
-                    }
+@Override
+public void onError(String message) {
+        // An error occured
+        // Do something here with the error message
+        // We had an error with the Serial Number, but it
+        // doesn't prevent us from calling the getIMEINumber method
+        DIHelper.getIMEINumber(context, new IDIResultCallbacks() {
+@Override
+public void onSuccess(String message) {
+        // We've got an EMEI number
+        String myIMEI = message;
+        }
 
-                    @Override
-                    public void onError(String message) {
-                        // An error occurred
-                    }
+@Override
+public void onError(String message) {
+        // An error occurred
+        }
 
-                    @Override
-                    public void onDebugStatus(String message) {
-                        // You can use this method to get verbose information
-                        // about what's happening behind the curtain                    }
-                });
-             }
+@Override
+public void onDebugStatus(String message) {
+        // You can use this method to get verbose information
+        // about what's happening behind the curtain                    }
+        });
+        }
 
-             @Override
-             public void onDebugStatus(String message) {
-                // You can use this method to get verbose information
-                // about what's happening behind the curtain             
-             }
-         });
-     }
+@Override
+public void onDebugStatus(String message) {
+        // You can use this method to get verbose information
+        // about what's happening behind the curtain             
+        }
+        });
+        }
 ```
