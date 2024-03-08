@@ -1,8 +1,6 @@
 package com.zebra.emdk_deviceidentifiers_sample;
 
-import android.app.Activity;
-
-public interface ISerialNumberIMEIObserver {
+public interface IZebraIdentifiersObserver {
 
     /*
     Called when the serial number has been retrieved for the first time
@@ -10,6 +8,8 @@ public interface ISerialNumberIMEIObserver {
      */
     void onSerialNumberUpdate(String serialNumber);
     void onIMEINumberUpdate(String imeiNumber);
+
+    void onBTMacAddressUpdate(String btMacAddress);
     void onErrorMessage(String message);
     void onDebugMessage(String message);
 

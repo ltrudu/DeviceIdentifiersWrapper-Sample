@@ -17,13 +17,13 @@ import android.widget.TextView;
  *          - Trudu Laurent
  *          - https://github.com/ltrudu/DeviceIdentifiersWrapper-Sample
 
- *  TODO: inherit from SNIMEIApplication and implements ISerialNumberIMEIObserver
+ *  TODO: inherit from ZebraIdentifiersApplication and implements IZebraIdentifiersObserver
  *  TODO: or do your own call inside your Activity ;)
  *
  *  (c) Zebra 2020
  */
 
-public class MainActivity extends AppCompatActivity implements ISerialNumberIMEIObserver {
+public class MainActivity extends AppCompatActivity implements IZebraIdentifiersObserver {
 
     public static final String TAG = "DeviceID";
 
@@ -31,6 +31,8 @@ public class MainActivity extends AppCompatActivity implements ISerialNumberIMEI
     TextView tvStatus;
     TextView tvSerialNumber;
     TextView tvIMEI;
+
+    TextView tvBtMacAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,13 +42,15 @@ public class MainActivity extends AppCompatActivity implements ISerialNumberIMEI
         tvStatus = findViewById(R.id.tv_status);
         tvSerialNumber = (TextView) findViewById(R.id.txtSerialNumber);
         tvIMEI = (TextView) findViewById(R.id.txtImei);
+        tvBtMacAddress = (TextView) findViewById(R.id.txtBtMacAddress);
      }
 
     @Override
     protected void onResume() {
         super.onResume();
-        updateTextViewContent(tvIMEI, ((SNIMEIApplication)getApplication()).getIMEI());
-        updateTextViewContent(tvSerialNumber,((SNIMEIApplication)getApplication()).getSerialNumber());
+        updateTextViewContent(tvIMEI, ((ZebraIdentifiersApplication)getApplication()).getIMEI());
+        updateTextViewContent(tvSerialNumber,((ZebraIdentifiersApplication)getApplication()).getSerialNumber());
+        updateTextViewContent(tvBtMacAddress,((ZebraIdentifiersApplication)getApplication()).getsBtMacAddress());
     }
 
     protected void addMessageToStatusText(String message)
@@ -78,6 +82,9 @@ public class MainActivity extends AppCompatActivity implements ISerialNumberIMEI
     public void onIMEINumberUpdate(String imeiNumber) {
         updateTextViewContent(tvIMEI, imeiNumber);
     }
+
+    @Override
+    public void onBTMacAddressUpdate(String btMacAddress) { updateTextViewContent(tvBtMacAddress, btMacAddress); }
 
     @Override
     public void onErrorMessage(String message) {

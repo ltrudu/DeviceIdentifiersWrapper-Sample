@@ -19,18 +19,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/lblImei"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="IMEI: "
-        android:textSize="18sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtSerialNumber" />
-
-    <TextView
         android:id="@+id/txtSerialNumber"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -42,6 +30,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/lblSerialNumber"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lblImei"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="IMEI: "
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtSerialNumber" />
 
     <TextView
         android:id="@+id/txtImei"
@@ -57,6 +57,32 @@
         app:layout_constraintStart_toEndOf="@+id/lblImei"
         app:layout_constraintTop_toBottomOf="@+id/txtSerialNumber" />
 
+    <TextView
+        android:id="@+id/lblBtMacAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="BT MAC: "
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtImei" />
+
+    <TextView
+        android:id="@+id/txtBtMacAddress"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:text="Placeholder"
+        android:textAlignment="textEnd"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/lblBtMacAddress"
+        app:layout_constraintTop_toBottomOf="@+id/txtImei" />
+
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -65,7 +91,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtImei"
+        app:layout_constraintTop_toBottomOf="@+id/txtBtMacAddress"
         app:layout_constraintVertical_bias="1.0">
 
         <TextView
