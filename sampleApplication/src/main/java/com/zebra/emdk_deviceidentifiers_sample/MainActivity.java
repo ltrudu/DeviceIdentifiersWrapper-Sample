@@ -16,6 +16,9 @@ import android.widget.TextView;
  *  Wrapper Code:
  *          - Trudu Laurent
  *          - https://github.com/ltrudu/DeviceIdentifiersWrapper-Sample
+
+ *  TODO: inherit from SNIMEIApplication and implements ISerialNumberIMEIObserver
+ *  TODO: or do your own call inside your Activity ;)
  *
  *  (c) Zebra 2020
  */
@@ -37,11 +40,6 @@ public class MainActivity extends AppCompatActivity implements ISerialNumberIMEI
         tvStatus = findViewById(R.id.tv_status);
         tvSerialNumber = (TextView) findViewById(R.id.txtSerialNumber);
         tvIMEI = (TextView) findViewById(R.id.txtImei);
-
-        // The call is asynchronous, since we may have to register the app to
-        // allow calling device identifier service, we don't wan't to get two
-        // concurrent calls to it, so we will ask for the IMEI number only at
-        // the end of the getSerialNumber method call (success or error)
      }
 
     @Override
