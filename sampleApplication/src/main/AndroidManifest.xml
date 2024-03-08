@@ -2,18 +2,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.zebra.emdk_deviceidentifiers_sample">
-    <!--> TODO: Add these permissions to your manifest </-->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
+
+    <!--> TODO: MANDATORY FOR DeviceIdentifierWrapper Add these permissions and query elements to your manifest </-->
     <uses-permission android:name="com.zebra.provider.READ"/>
     <uses-permission android:name="com.symbol.emdk.permission.EMDK" />
     <uses-permission android:name="android.permission.BIND_NOTIFICATION_LISTENER" />
 
-    <!--> TODO: Add query element to your manifest </-->
-    <queries>
+     <queries>
         <provider android:authorities="oem_info" />
         <package android:name="com.zebra.zebracontentprovider"/>
         <package android:name="com.symbol.emdk.emdkservice" />
     </queries>
+    <!--> TODO: END OF MANDATORY FOR DeviceIdentifierWrapper Add these permissions and query elements to your manifest </-->
 
     <application
         android:name = ".MainApplication"
@@ -23,7 +25,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!--> TODO: MANDATORY FOR DeviceIdentifierWrapper Add uses-library to your manifest </-->
         <uses-library android:name="com.symbol.emdk" />
+        <!--> TODO: END OF MANDATORY FOR DeviceIdentifierWrapper Add uses-library to your manifest </-->
         <activity android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
