@@ -4,16 +4,14 @@
 [![](https://jitpack.io/v/ltrudu/DeviceIdentifiersWrapper.svg)](https://jitpack.io/#ltrudu/DeviceIdentifiersWrapper)
 [![](https://jitpack.io/v/ltrudu/DeviceIdentifiersWrapper/month.svg)](https://jitpack.io/#ltrudu/DeviceIdentifiersWrapper)
 
-# DeviceIdentifiersWrapper Sample Application
-Look for "TODO: MANDATORY FOR DeviceIdentifierWrapper" to find what you need to add to your AndroidManifest.xml and build files.
 
 # DeviceIdentifiersWrapper
 
-## Easy access to serial number and IMEI
+## Easy access to Serial Number, IMEI and Bluetooth Mac Address and more !!!
 
 Forget about StageNow, EMDK, certificates, application signature... complexity....
 
-Just get the serial number and the IMEI number of your Zebra device in one method call (see at the end of this document).
+Just get the Serial Number, the IMEI number, the Bluetooth Mac Address (and more, see below) of your Zebra device in one method call (see at the end of this document).
 
 Have fun with Zebra's devices :)
 
@@ -21,13 +19,33 @@ Have fun with Zebra's devices :)
 
 
 
-## Change Log !!!
+## Change Log !!! 
+
+## 0.12.0 : Added new methods:
+DIHelper.getProductModel to retrieve the product model.
+DIHelper.getIdentityDeviceID to retrieve the identity device ID.
+DIHelper.getWifiMacAddress to retrieve the Wifi Mac Address.
+DIHelper.getWifiAPMacAddress to retrieve the Wifi Access Point Mac Address.
+DIHelper.getWifiSSID to retrieve the Wifi SSID.
+DIHelper.getEthernetMacAddress to retrieve the Ethernet Mac Address if applicable.
+
+See sample App for more information.
+
+## Added new method DIHelper.getBtMacAddress to retrieve Bluetooth Mac Address.
+
 ### 1. Change of REPOSITORY
 ### 2. UPDATED FOR A13...
 ### 3. Added a Sample repository running on <=A13
 
 ## Sample Repository
 https://github.com/ltrudu/DeviceIdentifiersWrapper-Sample
+
+Look for "TODO: MANDATORY FOR DeviceIdentifierWrapper" to find what you need to add to your AndroidManifest.xml and build files.
+
+## V0.9 to V0.10 : Get Bluetooth Mac Address
+```text
+	Added method DIHelper.getBtMacAddress to retrieve device's Bluetooth Mac Address
+```
 
 ## V0.8 to V0.9 : Updated for A13
 ```text
@@ -103,7 +121,7 @@ Then add a query element to retrive the data
     </queries>
 ```
 
-Then add the uses-library element to your application
+Then add the uses-library element to your application 
 ```xml
         <uses-library android:name="com.symbol.emdk" />
 ```
@@ -199,118 +217,143 @@ Now you can use the following snippet codes to retrieve IMEI number and Serial N
 Snippet code to use to retrieve the Serial Number of the device:
 ```java
      private void getSerialNumber(Context context)
-        {
-        DIHelper.getSerialNumber(context, new IDIResultCallbacks() {
-@Override
-public void onSuccess(String message) {
-        // The message contains the serial number
-        String mySerialNumber = message;
-        }
+     {
+         DIHelper.getSerialNumber(context, new IDIResultCallbacks() {
+             @Override
+             public void onSuccess(String message) {
+                 // The message contains the serial number
+                 String mySerialNumber = message;
+             }
 
-@Override
-public void onError(String message) {
-        // An error occurred
-        }
+             @Override
+             public void onError(String message) {
+                // An error occurred
+             }
 
-@Override
-public void onDebugStatus(String message) {
-        // You can use this method to get verbose information
-        // about what's happening behind the curtain             
-        }
-        });
-        }
+             @Override
+             public void onDebugStatus(String message) {
+                // You can use this method to get verbose information
+                // about what's happening behind the curtain             
+             }
+         });
+     }
 ```
 
 
 Snippet code to use to retrieve the IMEI of the device:
 ```java
     private void getIMEINumber(Context context)
-        {
+    {
         DIHelper.getIMEINumber(context, new IDIResultCallbacks() {
-@Override
-public void onSuccess(String message) {
-        // We've got an EMEI number
-        String myIMEI = message;
-        }
+            @Override
+            public void onSuccess(String message) {
+                // We've got an EMEI number
+                String myIMEI = message;
+            }
 
-@Override
-public void onError(String message) {
-        // An error occurred
-        }
+            @Override
+            public void onError(String message) {
+                // An error occurred
+            }
 
-@Override
-public void onDebugStatus(String message) {
-        // You can use this method to get verbose information
-        // about what's happening behind the curtain
-        }
+            @Override
+            public void onDebugStatus(String message) {
+                // You can use this method to get verbose information
+                // about what's happening behind the curtain
+            }
         });
-        }
+    }
+```
+
+Snippet code to use to retrieve the Bluetooth Mac Address of the device:
+```java
+    private void getBTMacAddress(Context context)
+    {
+        DIHelper.getBtMacAddress(context, new IDIResultCallbacks() {
+            @Override
+            public void onSuccess(String message) {
+		// We've got the bt mac address
+                String myBluetoothMacAddress = message;
+            }
+
+            @Override
+            public void onError(String message) {
+                // An error occurred
+            }
+
+            @Override
+            public void onDebugStatus(String message) {
+                // You can use this method to get verbose information
+                // about what's happening behind the curtain
+            }
+        });
+    }
 ```
 
 
-As the previous methods are asynchronous, if you need both information, it is strongly recommended to call the second request inside the onSuccess or onError of the first request.
+As the previous methods are asynchronous, if you need both information, it is strongly recommended to call the second request inside the onSuccess or onError of the first request. 
 
 Sample code if you need to get both device identifiers:
 ```java
      private void getDevicesIdentifiers(Context context)
-        {
+     {
         // We first ask for the SerialNumber
-        DIHelper.getSerialNumber(context, new IDIResultCallbacks() {
-@Override
-public void onSuccess(String message) {
-        // The message contains the serial number
-        String mySerialNumber = message;
-        // We've got the serial number, now we can ask for the IMEINumber
-        DIHelper.getIMEINumber(context, new IDIResultCallbacks() {
-@Override
-public void onSuccess(String message) {
-        // We've got an EMEI number
-        String myIMEI = message;
-        }
+         DIHelper.getSerialNumber(context, new IDIResultCallbacks() {
+             @Override
+             public void onSuccess(String message) {
+                 // The message contains the serial number
+                 String mySerialNumber = message;
+                 // We've got the serial number, now we can ask for the IMEINumber
+                 DIHelper.getIMEINumber(context, new IDIResultCallbacks() {
+                    @Override
+                    public void onSuccess(String message) {
+                        // We've got an EMEI number
+                        String myIMEI = message;
+                    }
 
-@Override
-public void onError(String message) {
-        // An error occurred
-        }
+                    @Override
+                    public void onError(String message) {
+                        // An error occurred
+                    }
 
-@Override
-public void onDebugStatus(String message) {
-        // You can use this method to get verbose information
-        // about what's happening behind the curtain
-        }
-        });
-        }
+                    @Override
+                    public void onDebugStatus(String message) {
+                        // You can use this method to get verbose information
+                        // about what's happening behind the curtain
+                    }
+                });
+             }
 
-@Override
-public void onError(String message) {
-        // An error occured
-        // Do something here with the error message
-        // We had an error with the Serial Number, but it
-        // doesn't prevent us from calling the getIMEINumber method
-        DIHelper.getIMEINumber(context, new IDIResultCallbacks() {
-@Override
-public void onSuccess(String message) {
-        // We've got an EMEI number
-        String myIMEI = message;
-        }
+             @Override
+             public void onError(String message) {
+                // An error occured
+                // Do something here with the error message
+                // We had an error with the Serial Number, but it
+                // doesn't prevent us from calling the getIMEINumber method
+                DIHelper.getIMEINumber(context, new IDIResultCallbacks() {
+                    @Override
+                    public void onSuccess(String message) {
+                        // We've got an EMEI number
+                        String myIMEI = message;
+                    }
 
-@Override
-public void onError(String message) {
-        // An error occurred
-        }
+                    @Override
+                    public void onError(String message) {
+                        // An error occurred
+                    }
 
-@Override
-public void onDebugStatus(String message) {
-        // You can use this method to get verbose information
-        // about what's happening behind the curtain                    }
-        });
-        }
+                    @Override
+                    public void onDebugStatus(String message) {
+                        // You can use this method to get verbose information
+                        // about what's happening behind the curtain                    }
+                });
+             }
 
-@Override
-public void onDebugStatus(String message) {
-        // You can use this method to get verbose information
-        // about what's happening behind the curtain             
-        }
-        });
-        }
+             @Override
+             public void onDebugStatus(String message) {
+                // You can use this method to get verbose information
+                // about what's happening behind the curtain             
+             }
+         });
+     }
 ```
